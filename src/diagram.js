@@ -42,9 +42,11 @@
 	};
 
 	Diagram.Actor = function(alias, name, index) {
+		var matches = name.match(/(.*)\|(.*)/);
 		this.alias = alias;
-		this.name  = name;
+		this.name  = matches ? matches[1].replace(/___/g,"-") : name.replace(/___/g,"-");
 		this.index = index;
+		this.result = matches ? matches[2] : 'UNKNOWN';
 	};
 
 	Diagram.Signal = function(actorA, signaltype, actorB, message) {

@@ -45,6 +45,25 @@
 		'stroke-width': 2
 	};
 
+	var LINE_COLOR = {
+		'SUCCESS' : {
+			'stroke': '#0F0',
+			'stroke-width': 2
+		},
+		'INPROGRESS' : {
+			'stroke': '#FF0',
+			'stroke-width': 2
+		},
+		'FAILURE' : {
+			'stroke': '#F00',
+			'stroke-width': 2
+		},
+		'UNKNOWN' : {
+			'stroke': '#CCC',
+			'stroke-width': 2
+		}
+	};
+
 	var RECT = {
 		'fill': "#fff"
 	};
@@ -269,7 +288,8 @@
 				a.text_bb = bb;
 
 				//var bb = t.attr("text", a.name).getBBox();
-				a.x = 0; a.y = 0;
+				a.x = 0; 
+				a.y = 0;
 				a.width  = bb.width  + (ACTOR_PADDING + ACTOR_MARGIN) * 2;
 				a.height = bb.height + (ACTOR_PADDING + ACTOR_MARGIN) * 2;
 
@@ -408,7 +428,7 @@
 				var line = this.draw_line(
 					aX, y + this._actors_height - ACTOR_MARGIN,
 					aX, y + this._actors_height + ACTOR_MARGIN + this._signals_height);
-				line.attr(LINE);
+				line.attr(LINE_COLOR[a.result]);
 			}, this);
 		},
 
@@ -551,7 +571,11 @@
 
 			// Draw inner box
 			var rect = this.draw_rect(x, y, w, h);
-			rect.attr(LINE);
+			if (box.result) {
+				rect.attr(LINE_COLOR[box.result]);
+			} else {
+				rect.attr(LINE);
+			}
 
 			// Draw text (in the center)
 			x = getCenterX(box);
